@@ -1,12 +1,13 @@
 module AuthHelper
 
   # App's client ID. Register the app in Application Registration Portal to get this value.
-  CLIENT_ID = '6587e160-2947-4c6e-9a07-d7ac529c558b'
+    CLIENT_ID = '6587e160-2947-4c6e-9a07-d7ac529c558b'
   # App's client secret. Register the app in Application Registration Portal to get this value.
-  CLIENT_SECRET = 'fqozCDTG04}lshGAG619{+}'
+    CLIENT_SECRET = 'fqozCDTG04}lshGAG619{+}'
 
   # Scopes required by the app
-  SCOPES = ['profile', 'openid', 'offline_access', 'User.Read']
+  SCOPES = ['openid']
+    #SCOPES = ['profile', 'openid', 'offline_access', 'User.Read']
 
   # Generates the login URL for the app.
   def get_login_url

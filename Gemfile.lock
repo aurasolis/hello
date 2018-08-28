@@ -134,6 +134,8 @@ GEM
       jwt (>= 1.5)
       omniauth (>= 1.1.1)
       omniauth-oauth2 (>= 1.5)
+    omniauth-microsoft_v2_auth (0.1.1)
+      omniauth-oauth2
     omniauth-oauth2 (1.5.0)
       oauth2 (~> 1.1)
       omniauth (~> 1.2)
@@ -242,6 +244,7 @@ DEPENDENCIES
   oauth2
   omniauth-facebook
   omniauth-google-oauth2
+  omniauth-microsoft_v2_auth
   puma (~> 3.7)
   rails (~> 5.1.6)
   sass-rails (~> 5.0)
@@ -255,4 +258,4 @@ DEPENDENCIES
   web-console (>= 3.3.0)
 
 BUNDLED WITH
-   1.16.3
+   1.16.4

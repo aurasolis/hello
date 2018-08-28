@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get 'home', to: 'home#show'
   get 'me', to: 'me#show', as: 'me'
   root to: "home#show"
+  match 'auth/:provider/callback', to: 'sessions#create', via: [:get, :post]
   get 'authorize' => 'auth#show'
 
 end
