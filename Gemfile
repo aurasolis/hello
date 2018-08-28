@@ -32,15 +32,7 @@ gem 'jquery-rails'
 
 gem 'bootstrap-sass'
 
-gem 'devise'
-
-gem 'oauth2'
-
 gem 'omniauth-facebook'
-
-gem 'activerecord-session_store'
-
-gem 'microsoft_graph'
 
 gem 'omniauth-microsoft_v2_auth'
 # Use Redis adapter to run Action Cable in production
