@@ -1,0 +1,9 @@
+<div>
+<% if current_user %>
+<% current_user.attributes.each do |k, v| %>
+		<b><%= k %>:</b> <%= v %> <br>
+	<% end %>
+<% end %>
+
+<%= link_to 'Log Out', logout_path %>
+</div>
