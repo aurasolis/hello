@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180827205016) do
+ActiveRecord::Schema.define(version: 20180829164042) do
+
+  create_table "loyalty_cards", force: :cascade do |t|
+    t.integer "loyalty_number"
+    t.integer "password"
+    t.integer "point_total"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "sessions", force: :cascade do |t|
     t.string "session_id", null: false
@@ -22,12 +31,13 @@ ActiveRecord::Schema.define(version: 20180827205016) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "provider"
-    t.string "uid"
-    t.string "email"
     t.string "first_name"
     t.string "last_name"
+    t.string "email"
+    t.date "birthday"
     t.string "picture"
+    t.string "provider"
+    t.string "uid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -1,4 +1,22 @@
 <h1> Welcome, please login to continue </h1>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= form_for(:session, url: slogin_path) do |f| %>
+
+      <%= f.label :loyalty_number %>
+      <%= f.number_field :loyalty_number, class: 'form-control' %>
+
+      <%= f.label :password %>
+      <%= f.password_field :password, class: 'form-control' %>
+
+      <%= f.submit "Log in", class: "btn btn-primary" %>
+    <% end %>
+
+    <p>New user? <%= link_to 'Sign in', signup_path %></p>
+  </div>
+</div>
+
 <p class=center><%= link_to 'Sign in with Google+', '/auth/google_oauth2' %></p>
 <p class=center><%= link_to 'Sign in with Facebook', '/auth/facebook' %></p>
 <p class=center><%= link_to 'Sign in with Outlook2', '/auth/microsoft_v2_auth' %></a></p>
