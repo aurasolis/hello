@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  include SessionsHelper
+  include UsersHelper
 
   def new
     @user = User.new
@@ -6,14 +8,18 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    redirect_to :me
   end
 
   def create
     @user = User.new(user_params)
     if @user.save
+      req = validate_req(@user)
+      res = req.parsed_response
+      parsing_user_info @user,res
       log_in @user
-      redirect_to @user
+      remember @user
+      debugger
+      redirect_to :me, notice: "Signed in!"
     else
       render 'new'
     end
@@ -23,11 +29,20 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
   end
 
+  def update
+    @user = User.find(params[:id])
+    if @user.update_attributes(user_params)
+    redirect_to @user
+    else
+      render 'edit'
+    end
+  end
+
   private
 
   def user_params
     params.require(:user).permit(:first_name,:last_name,:provider,
-                                 :email,:picture,:uid)
+                                 :email,:birthday,:sp_card,:picture,:uid)
   end
 
 end

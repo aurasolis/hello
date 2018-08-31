@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180829164042) do
+ActiveRecord::Schema.define(version: 20180831222520) do
 
   create_table "loyalty_cards", force: :cascade do |t|
     t.integer "loyalty_number"
@@ -30,16 +30,14 @@ ActiveRecord::Schema.define(version: 20180829164042) do
     t.index ["updated_at"], name: "index_sessions_on_updated_at"
   end
 
-  create_table "users", force: :cascade do |t|
-    t.string "first_name"
-    t.string "last_name"
-    t.string "email"
-    t.date "birthday"
-    t.string "picture"
-    t.string "provider"
-    t.string "uid"
+  create_table "tokens", force: :cascade do |t|
+    t.string "token"
+    t.string "sp_card"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+# Could not dump table "users" because of following StandardError
+#   Unknown type 'array' for column 'trips'
 
 end

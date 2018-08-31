@@ -37,6 +37,8 @@ gem 'omniauth-facebook'
 gem 'omniauth-microsoft_v2_auth'
 
 gem 'httparty'
+
+gem 'bcrypt'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password

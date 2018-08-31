@@ -2,13 +2,13 @@
 
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
-    <%= form_for(:session, url: slogin_path) do |f| %>
+    <%= form_for(:session, url: login_path) do |f| %>
 
-      <%= f.label :loyalty_number %>
-      <%= f.number_field :loyalty_number, class: 'form-control' %>
+      <%= f.label :sp_card %>
+      <%= f.number_field :sp_card, class: 'form-control' %>
 
-      <%= f.label :password %>
-      <%= f.password_field :password, class: 'form-control' %>
+      <%= f.label :nip %>
+      <%= f.password_field :nip, class: 'form-control' %>
 
       <%= f.submit "Log in", class: "btn btn-primary" %>
     <% end %>
