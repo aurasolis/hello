@@ -7,7 +7,9 @@ module SessionsHelper
 
   def remember(user)
     User.generate_token(user)
-    cookies.signed[:user_id] = user.id
+    cookies.signed[:user_id] = { :value => user.id,
+                :expires => 2.weeks.from_now,
+                :httponly => true }
     cookies[:remember_token] = { :value => user.remember_token,
                 :expires => 2.weeks.from_now,
                 :httponly => true }

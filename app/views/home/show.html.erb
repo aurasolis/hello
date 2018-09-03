@@ -1,4 +1,4 @@
-<h1> Welcome, please login to continue </h1>
+<h1> Welcome<%= current_user %>, please login to continue </h1>
 
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
@@ -13,10 +13,12 @@
       <%= f.submit "Log in", class: "btn btn-primary" %>
     <% end %>
 
+    <p>Forgot your nip? <%= link_to 'Retrieve nip', new_password_reset_path %></p>
     <p>New user? <%= link_to 'Sign in', signup_path %></p>
+    <p class=center><small>or</small></p>
+
+    <p class=center><%= link_to 'Sign in with Google+', '/auth/google_oauth2' %>
+    | <%= link_to 'Sign in with Facebook', '/auth/facebook' %>
+    | <%= link_to 'Sign in with Outlook2', '/auth/microsoft_v2_auth' %></a></p>
   </div>
 </div>
-
-<p class=center><%= link_to 'Sign in with Google+', '/auth/google_oauth2' %></p>
-<p class=center><%= link_to 'Sign in with Facebook', '/auth/facebook' %></p>
-<p class=center><%= link_to 'Sign in with Outlook2', '/auth/microsoft_v2_auth' %></a></p>

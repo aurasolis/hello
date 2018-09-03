@@ -1,12 +1,15 @@
 module UsersHelper
 
+  def birthday_parse(user)
+    user.birthday = Date.strptime("#{params['birthday(3i)']}/#{params['birthday(2i)']}/#{params['birthday(1i)']}", "%d-%m-%y")
+  end
+
   def validate_req(user)
     query = { :body => { :nombre => user.first_name,
               :apellidos => user.last_name,
-              :fechaNacimiento => user.birthday.present? || "",
+              :fechaNacimiento => user.birthday.present? ? user.birthday : "",
               :correo => user.email }.to_json,
               :headers => { 'Content-Type' => 'application/json' } }
-
     url = "http://wcf_qa_sp.primeraplus.com.mx/SiemprePlus_NPV.svc/validarRegistro"
     response = HTTParty.post(url, query)
   end
@@ -25,6 +28,7 @@ module UsersHelper
               :nip => "" }.to_json,
               :headers => { 'Content-Type' => 'application/json' } }
     headers = { :headers => { 'Content-Type' => 'application/json' } }
+    
     url = "http://wcf_qa_sp.primeraplus.com.mx/SiemprePlus_NPV.svc/obtenerDatosCliente"
     debugger
     response = HTTParty.post(url, query)

@@ -6,19 +6,17 @@ class SessionsController < ApplicationController
   end
 
   def create
-    #@user = User.find_or_create_from_auth_hash(request.env["omniauth.auth"])
-    #log_in @user
-    #remember token
-    #redirect_to :me, notice: "Signed in!"
-    user = User.find_by(sp_card: params[:session][:sp_card])
+    user = User.where(:sp_card => params[:session][:sp_card],
+                      :nip => params[:session][:nip])
     debugger
     if user
-      req = obtain_req(user)
+      req = login_req(user.sp_card, user.nip)
       res = req.parsed_response
       parsing_user_info user,res
       debugger
       log_in user
       remember user
+      flash[:info] = "Signed in!"
       redirect_to user
     else
       flash.now[:danger] = 'Invalid card and nip combination'
@@ -28,7 +26,7 @@ class SessionsController < ApplicationController
 
   def destroy
     log_out if logged_in?
-    redirect_to root_path
+    redirect_to 'home#show'
   end
 
 end

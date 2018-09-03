@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-	attr_accessor :remember_token
+	attr_accessor :remember_token, :reset_token
 	has_many :token
 	before_save { self.email = email.downcase }
 
@@ -14,25 +14,25 @@ class User < ApplicationRecord
 		where(provider: auth.provider, uid: auth.uid).first_or_initialize.tap do |user|
 			user.provider = auth.provider
 			user.uid = auth.uid
-			user.first_name = auth.info.first_name
-			user.last_name = auth.info.last_name
+			user.first_name = auth.info.first_name || auth.info.name.split(' ')[0]
+			user.last_name = auth.info.last_name|| auth.info.name.split(' ')[1]
 			user.email = auth.info.email || auth.extra.raw_info.userPrincipalName
 			user.picture = auth.info.image
 			user.save!
 		end
 	end
 
-	def User.new_token
+	def self.new_token
 		SecureRandom.urlsafe_base64
 	end
 
-	def User.digest(string)
+	def self.digest(string)
     cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
                                                 BCrypt::Engine.cost
     BCrypt::Password.create(string, cost: cost)
   end
 
-  def User.generate_token(user)
+  def self.generate_token(user)
 		t = Token.new(:token => User.new_token)
     user.remember_token = t.token
     t.update_attribute(:token, User.digest(user.remember_token))
@@ -43,4 +43,17 @@ class User < ApplicationRecord
     return false if token.nil?
     BCrypt::Password.new(token).is_password?(remember_token)
   end
+
+	# Sets the password reset attributes.
+ def self.create_reset_digest
+	 self.reset_token = User.new_token
+	 update_attribute(:reset_digest,  User.digest(reset_token))
+	 update_attribute(:reset_sent_at, Time.zone.now)
+ end
+
+ # Sends password reset email.
+  #def send_password_reset_email
+	  #UserMailer.password_reset(self).deliver_now
+  #end
+
 end

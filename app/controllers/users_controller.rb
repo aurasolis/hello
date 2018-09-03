@@ -13,30 +13,32 @@ class UsersController < ApplicationController
   def create
     params[:provider] ? @user = User.find_or_create_from_auth_hash(request.env["omniauth.auth"]) : @user = User.new(user_params)
     if @user.save
+      debugger
       req = validate_req(@user)
       res = req.parsed_response
       parsing_user_info @user,res
       log_in @user
       remember @user
       debugger
-      redirect_to :me, notice: "Signed in!"
+      flash[:info] = "Signed in!"
+      redirect_to @user
     else
       render 'new'
     end
   end
 
-  def edit
-    @user = User.find(params[:id])
-  end
+  #def edit
+    #@user = User.find(params[:id])
+  #end
 
-  def update
-    @user = User.find(params[:id])
-    if @user.update_attributes(user_params)
-    redirect_to @user
-    else
-      render 'edit'
-    end
-  end
+  #def update
+    #@user = User.find(params[:id])
+    #if @user.update_attributes(user_params)
+    #redirect_to @user
+    #else
+      #render 'edit'
+    ##end
+  #end
 
   private
 

@@ -4,7 +4,11 @@ class ApplicationController < ActionController::Base
   include SessionsHelper
 
   def authenticate
-  	redirect_to :login unless user_signed_in?
+    if user_signed_in?
+      redirect_to current_user
+    else
+      redirect_to root_path
+    end
   end
 
   # Returns the user corresponding to the remember token cookie.
@@ -13,7 +17,7 @@ class ApplicationController < ActionController::Base
       @current_user ||= User.find_by(id: user_id)
     elsif (user_id = cookies.signed[:user_id])
       user = User.find_by(id: user_id)
-      if user && user.authenticated?(cookies[:remember_token])
+      if user && User.authenticated?(cookies[:remember_token])
         log_in user
         @current_user = user
       end
@@ -24,7 +28,6 @@ class ApplicationController < ActionController::Base
   #end
 
   def user_signed_in?
-  	#true if signed in, false otherwise.
   	!!current_user
   end
 
