@@ -39,12 +39,8 @@ class User < ApplicationRecord
 		t.update_attribute(:sp_card, user.sp_card)
   end
 
-  def authenticated?(remember_token)
+  def self.authenticated?(remember_token)
     return false if token.nil?
     BCrypt::Password.new(token).is_password?(remember_token)
-  end
-
-  def forget
-    update_attribute(:token, nil)
   end
 end

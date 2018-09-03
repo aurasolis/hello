@@ -11,7 +11,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(user_params)
+    params[:provider] ? @user = User.find_or_create_from_auth_hash(request.env["omniauth.auth"]) : @user = User.new(user_params)
     if @user.save
       req = validate_req(@user)
       res = req.parsed_response
