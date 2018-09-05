@@ -1,6 +1,6 @@
 class User < ApplicationRecord
 	attr_accessor :remember_token, :reset_token
-	has_many :token
+	has_many :tokens
 	before_save { self.email = email.downcase }
 
 	validates :first_name,  presence: true, length: { maximum: 50 }

@@ -1,4 +1,5 @@
 class PasswordResetsController < ApplicationController
+  #skip_before_action :authenticate, only: [:new, :create]
   include UsersHelper
 
   def new
@@ -21,6 +22,4 @@ class PasswordResetsController < ApplicationController
     end
   end
 
-  def edit
-  end
 end

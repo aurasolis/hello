@@ -10,6 +10,7 @@ module SessionsHelper
     cookies.signed[:user_id] = { :value => user.id,
                 :expires => 2.weeks.from_now,
                 :httponly => true }
+                #:domain => :all
     cookies[:remember_token] = { :value => user.remember_token,
                 :expires => 2.weeks.from_now,
                 :httponly => true }
