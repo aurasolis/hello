@@ -10,7 +10,7 @@ module UsersHelper
               :fechaNacimiento => user.birthday.present? ? user.birthday : "",
               :correo => user.email }.to_json,
               :headers => { 'Content-Type' => 'application/json' } }
-    url = "http://wcf_qa_sp.primeraplus.com.mx/SiemprePlus_NPV.svc/validarRegistro"
+    url = ""
     response = HTTParty.post(url, query)
   end
 
@@ -19,7 +19,7 @@ module UsersHelper
               :nip => nip }.to_json,
               :headers => { 'Content-Type' => 'application/json' } }
 
-    url = "http://wcf_qa_sp.primeraplus.com.mx/SiemprePlus_NPV.svc/loginSP"
+    url = ""
     response = HTTParty.post(url, query)
   end
 
@@ -28,8 +28,8 @@ module UsersHelper
               :nip => "" }.to_json,
               :headers => { 'Content-Type' => 'application/json' } }
     headers = { :headers => { 'Content-Type' => 'application/json' } }
-    
-    url = "http://wcf_qa_sp.primeraplus.com.mx/SiemprePlus_NPV.svc/obtenerDatosCliente"
+
+    url = ""
     debugger
     response = HTTParty.post(url, query)
   end
@@ -39,16 +39,16 @@ module UsersHelper
               :correo => email }.to_json,
               :headers => { 'Content-Type' => 'application/json' } }
 
-    url = "http://wcf_qa_sp.primeraplus.com.mx/SiemprePlus_NPV.svc/recuperarCuenta"
+    url = ""
     response = HTTParty.post(url, query)
   end
 
   def parsing_user_info user,res
-    user[:sp_card] = res['numeroTarjetaSP']
-    user[:birthday] = res['fechaNacimiento'] #se sobreescribiría
-    user[:fav_seat] = res['asientoFavorito']
-    user[:available_kms] = res['kilometrosDisponibles']
-    user[:customer_type] = res['tipoSocio']
+    user[:sp_card] = res.fetch('numeroTarjetaSP')
+    user[:birthday] = res.fetch('fechaNacimiento') #se sobreescribiría
+    user[:fav_seat] = res.fetch('asientoFavorito')
+    user[:available_kms] = res.fetch('kilometrosDisponibles')
+    user[:customer_type] = res.fetch('tipoSocio')
     #user[:trips] = res['viajes'] Error: Can't cast array.
     user.save
   end
