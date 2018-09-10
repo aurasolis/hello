@@ -3,7 +3,6 @@ class AddNipAndFavSeatAndAvailableKmsAndTripsAndCustomerTypeToUsers < ActiveReco
     add_column :users, :nip, :integer
     add_column :users, :fav_seat, :integer
     add_column :users, :available_kms, :integer
-    add_column :users, :trips, :array
     add_column :users, :customer_type, :string
   end
 end

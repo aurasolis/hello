@@ -1,14 +1,23 @@
 class User < ApplicationRecord
-	attr_accessor :remember_token, :reset_token
+	attr_accessor :remember_token, :reset_token, :email_confirmation
 	has_many :tokens
 	before_save { self.email = email.downcase }
 
-	validates :first_name,  presence: true, length: { maximum: 50 }
-	validates :last_name, presence: true
+	validates :first_name,
+						presence: true,
+						length: { maximum: 50 }
+	validates :last_name,
+						presence: true
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
-  validates :email, presence: true, length: { maximum: 255 },
+  validates :email, presence: true,
+										length: { maximum: 255 },
                     format: { with: VALID_EMAIL_REGEX },
-										uniqueness: { case_sensitive: false }
+                    uniqueness: { case_sensitive: false }
+	validate :check_email
+
+	def check_email
+		errors.add(:email_confirmation,:different, "Emails do not match") if email == email_confirmation
+	end
 
 	def self.find_or_create_from_auth_hash(auth)
 		where(provider: auth.provider, uid: auth.uid).first_or_initialize.tap do |user|
@@ -22,38 +31,14 @@ class User < ApplicationRecord
 		end
 	end
 
-	def self.new_token
-		SecureRandom.urlsafe_base64
+	def self.find_or_create_from_params(params)
+		where(email: params[:email]).first_or_initialize.tap do |user|
+			user.first_name = params[:first_name]
+			user.last_name = params[:last_name]
+			user.email = params[:email]
+			user.birthday = params[:birthday]
+			user.save!
+		end
 	end
-
-	def self.digest(string)
-    cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
-                                                BCrypt::Engine.cost
-    BCrypt::Password.create(string, cost: cost)
-  end
-
-  def self.generate_token(user)
-		t = Token.new(:token => User.new_token)
-    user.remember_token = t.token
-    t.update_attribute(:token, User.digest(user.remember_token))
-		t.update_attribute(:sp_card, user.sp_card)
-  end
-
-  def self.authenticated?(remember_token)
-    return false if token.nil?
-    BCrypt::Password.new(token).is_password?(remember_token)
-  end
-
-	# Sets the password reset attributes.
- def self.create_reset_digest
-	 self.reset_token = User.new_token
-	 update_attribute(:reset_digest,  User.digest(reset_token))
-	 update_attribute(:reset_sent_at, Time.zone.now)
- end
-
- # Sends password reset email.
-  #def send_password_reset_email
-	  #UserMailer.password_reset(self).deliver_now
-  #end
 
 end

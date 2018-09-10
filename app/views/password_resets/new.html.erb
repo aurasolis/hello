@@ -2,15 +2,8 @@
 
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
-    <%= form_for(:password_reset, url: password_resets_path) do |f| %>
+    <%= form_for(:password_reset, url: new_password_reset_path) do |f| %>
 
-      <%= f.label :birthday %>
-      <%= f.date_select :birthday,
-                        :start_year => 1940,
-                        :end_year => Time.current.year,
-                        :include_blank => false,
-                        :order => [:day, :month, :year],
-                        class: 'form-control' %>
       <br>
       <%= f.label :email %>
       <%= f.email_field :email, class: 'form-control' %>
