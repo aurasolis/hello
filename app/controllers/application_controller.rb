@@ -1,12 +1,12 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
-  helper_method :current_user?
+  helper_method :current_user
   include SessionsHelper
   include SplusServices
   include SplusResponse
 
   # Returns the user corresponding to the remember token cookie.
-  def current_user?
+  def current_user
     if cookies.signed[:user_id]
       user_id = cookies.signed[:user_id]
       user = User.find_by(id: user_id)
@@ -18,6 +18,6 @@ class ApplicationController < ActionController::Base
   end
 
   def logged_in?
-    !!current_user?
+    !!current_user
   end
 end

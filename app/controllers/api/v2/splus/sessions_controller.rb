@@ -1,5 +1,4 @@
 class Api::V2::Splus::SessionsController < ApplicationController
-  include UsersHelper
   include SessionsHelper
 
   def new
@@ -9,18 +8,17 @@ class Api::V2::Splus::SessionsController < ApplicationController
     #hacer llamada primero, si esta actualizarlo, si no crearlo.
     req = Splus.new.login login_params[:sp_card], login_params[:nip]
     res = final_response(req)
-    user = User.find_by(:sp_card => res[:sp_card])
-      if user
-        user.update_attributes(res)
-        user[:nip] = login_params[:nip]
+    @user = User.find_by(:sp_card => res[:sp_card])
+      if @user
+        @user.update_attributes(res)
+        @user[:nip] = login_params[:nip]
       else #porque puede no haberse registrado en nuestra pag pero sí estar en la de sp??
-        user = User.create(res)
-        user[:nip] = login_params[:nip]
+        @user = User.create(res)
+        @user[:nip] = login_params[:nip]
       end
-      remember user
+      remember @user
       flash[:info] = "Signed in!"
-      redirect_to user
-    end
+      redirect_to api_v2_splus_user_path(user.id)
   end
 
   def destroy

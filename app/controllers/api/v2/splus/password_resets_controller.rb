@@ -1,13 +1,12 @@
 class Api::V2::Splus::PasswordResetsController < ApplicationController
-  include UsersHelper
 
   def new
   end
 
   def create
-    user = User.find_by(:email => params[:password_reset][:email].downcase)
-    if user
-      req = Splus.new.reset user.email
+    @user = User.find_by(:email => params[:password_reset][:email].downcase)
+    if @user
+      req = Splus.new.reset @user.email
       check req
       flash[:info] = "Email sent with password reset instructions"
       redirect_to root_path

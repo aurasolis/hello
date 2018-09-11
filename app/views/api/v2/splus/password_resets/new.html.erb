@@ -1,9 +1,8 @@
-<h1>Recover nip</h1>
+<h1>Reset nip</h1>
 
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
-    <%= form_for(:password_reset, url: new_password_reset_path) do |f| %>
-
+    <%= form_for(:password_reset, url: new_api_v2_splus_password_reset_path) do |f| %>
       <br>
       <%= f.label :email %>
       <%= f.email_field :email, class: 'form-control' %>

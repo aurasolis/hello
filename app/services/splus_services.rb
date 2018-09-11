@@ -9,7 +9,7 @@ module SplusServices #estaba bien que fueran módulos?
   def register(user)
     @options = { :body => { :nombre => user.first_name,
                             :apellidos => user.last_name,
-                            :fechaNacimiento => user.birthday.present? ? user.birthday : "",
+                            :fechaNacimiento => user.birthday.present? ? user.birthday.strftime("%d-%m-%Y") : "",
                             :correo => user.email }.to_json,
                  :headers => { "Content-Type" => "application/json" } }
     self.class.post("/validarRegistro", @options)
